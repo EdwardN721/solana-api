@@ -1,7 +1,11 @@
 const express = require('express');
+const devicesRoutes = require('./devices'); // Rutas para dispositivos
+const registryRoutes = require('./registry'); // Rutas para registros
+
 const router = express.Router();
 
-router.use('/registry', require('./registry'));
-router.use('/device', require('./device'));
+// Definición de rutas
+router.use('/devices', devicesRoutes);
+router.use('/registry', registryRoutes);
 
-module.exports = router;
+module.exports = router; // Exporta el enrutador principal

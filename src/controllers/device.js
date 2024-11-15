@@ -10,7 +10,7 @@ exports.addDevice = async (req, res) => {
       return res.status(400).json({ error: "Nombre y descripción son obligatorios." });
     }
 
-    const deviceKey = Keypair.generate();
+    const deviceKey = Keypair.generate(); // Generar clave pública del dispositivo
     const tx = await program.methods
       .addDevice(deviceName, deviceDescription)
       .accounts({
@@ -20,10 +20,15 @@ exports.addDevice = async (req, res) => {
         systemProgram: SystemProgram.programId,
       })
       .signers([deviceKey])
-      .rpc();
+      .rpc(); // Ejecuta la transacción en Solana
 
-    res.json({ message: "Dispositivo agregado con éxito.", tx, deviceKey: deviceKey.publicKey.toString() });
+    res.json({
+      message: "Dispositivo agregado con éxito.",
+      tx,
+      deviceKey: deviceKey.publicKey.toString(),
+    });
   } catch (error) {
     res.status(500).json({ error: "No se pudo agregar el dispositivo." });
   }
 };
+

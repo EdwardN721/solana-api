@@ -10,7 +10,7 @@ exports.createRegistry = async (req, res) => {
       return res.status(400).json({ error: "El nombre del registro es inválido." });
     }
 
-    const registryKey = Keypair.generate();
+    const registryKey = Keypair.generate(); // Generar clave pública del registro
     const tx = await program.methods
       .createRegistry(registryName)
       .accounts({
@@ -21,13 +21,16 @@ exports.createRegistry = async (req, res) => {
       .signers([registryKey])
       .rpc();
 
-    res.json({ message: "Registro creado con éxito.", tx, registryKey: registryKey.publicKey.toString() });
+    res.json({
+      message: "Registro creado con éxito.",
+      tx,
+      registryKey: registryKey.publicKey.toString(),
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Consultar un registro
 exports.getRegistry = async (req, res) => {
   try {
     const { registryPubkey } = req.params;
